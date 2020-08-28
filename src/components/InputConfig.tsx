@@ -1,32 +1,7 @@
 import React, { useState } from 'react';
 import { TextArea, StyledButton } from './styled';
-
-const elementMap = {
-  button: {
-    type: 'button' as const
-  },
-  input: {
-    type: 'input' as const,
-    subtypes: ['text', 'number'] as const
-  }
-};
-type Button = {
-  type: typeof elementMap.button.type;
-  label?: string;
-  innerText?: string;
-};
-type Input = {
-  type: typeof elementMap.input.type;
-  label?: string;
-  subtype: typeof elementMap.input.subtypes[number];
-};
-
-type Elements = Button | Input;
-
-interface Config {
-  items: Elements[];
-}
-
+import { Config, elementMap } from './constants';
+import { validateInput } from './itemValidators';
 interface Props {
   setupConfig: (config: string) => void;
 }
@@ -44,7 +19,6 @@ export default ({ setupConfig }: Props) => {
     if (!configObj) {
       return;
     }
-    console.log('config', configObj);
     if (!validateConfig(configObj)) {
       return;
     }
@@ -71,9 +45,16 @@ export default ({ setupConfig }: Props) => {
 
     for (const item of items) {
       if (!elementMap[item.type]) {
-        console.log('');
         setErrorMessage(`no such element ${item.type}`);
         return false;
+      }
+
+      if (item.type === 'input') {
+        const inputValidation = validateInput(item);
+        if (!inputValidation.validation) {
+          setErrorMessage(inputValidation.errorMessage);
+          return false;
+        }
       }
     }
 
