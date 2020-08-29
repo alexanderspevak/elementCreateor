@@ -41,7 +41,7 @@ export default ({ config: { items }, setTextAreaValue, setConfig }: Props) => {
         style={{ float: 'left', marginTop: 50, marginLeft: 120 }}
         onClick={handleButtons}
       >
-        Apply
+        Save
       </StyledButton>
       <StyledButton
         onClick={handleButtons}
