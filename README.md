@@ -28,7 +28,7 @@ items:[
 type:'input',label:'checkbox',subtype:{
 type:'checkbox',value:'2020-12-20'
 }
-},
+}
 ]
 }
 
