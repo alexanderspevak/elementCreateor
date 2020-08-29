@@ -19,13 +19,13 @@ export const validateInput = ({
     };
   }
 
-  if (type === 'date') {
+  if (type === 'date' && value) {
     try {
-      new Date(value as string);
+      new Date(value);
     } catch (e) {
       return {
         validation: false,
-        errorMessage: 'date input values must be a number greater than 0'
+        errorMessage: 'invalid date value'
       };
     }
   }
