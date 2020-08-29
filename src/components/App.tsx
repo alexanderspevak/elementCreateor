@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { TabHolder, TabButton, ContentHolder } from './styled';
-import InputConfig from './InputConfig';
+import InputConfig from './Config';
+import Items from './Items';
+import { Config } from './constants';
 
 export default () => {
   const [isConfigViewActive, toggleConfigView] = useState<boolean>(true);
   const [isResultViewActive, toggleResultView] = useState<boolean>(false);
+  const [config, setConfig] = useState<Config>({ items: [] });
+  const [textAreaValue, setTextAreaValue] = useState('');
 
   const activateInputView = (): void => {
     if (isConfigViewActive) return;
@@ -18,7 +22,9 @@ export default () => {
     toggleResultView(true);
   };
 
-  const setupConfig = (config: string): void => {};
+  const setupConfig = (config: Config): void => {
+    setConfig(config);
+  };
 
   return (
     <div>
@@ -31,7 +37,20 @@ export default () => {
         </TabButton>
       </TabHolder>
       <ContentHolder>
-        <InputConfig setupConfig={setupConfig} />
+        {isConfigViewActive && (
+          <InputConfig
+            setupConfig={setupConfig}
+            setTextAreaValue={setTextAreaValue}
+            textAreaValue={textAreaValue}
+          />
+        )}
+        {isResultViewActive && (
+          <Items
+            config={config}
+            setTextAreaValue={setTextAreaValue}
+            setConfig={setupConfig}
+          />
+        )}
       </ContentHolder>
     </div>
   );

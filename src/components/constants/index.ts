@@ -1,25 +1,39 @@
-export const elementMap = {
+export const ItemMap = {
   button: {
     type: 'button' as const
   },
   input: {
     type: 'input' as const,
-    subtypes: ['text', 'number'] as const
+    subtypes: ['text', 'number', 'button', 'date', 'checkbox', 'radio'] as const
+  },
+  textarea: {
+    type: 'textarea' as const
   }
 };
+
 export type Button = {
-  type: typeof elementMap.button.type;
+  type: typeof ItemMap.button.type;
   label?: string;
   innerText?: string;
 };
+
 export type Input = {
-  type: typeof elementMap.input.type;
+  type: typeof ItemMap.input.type;
   label?: string;
-  subtype: typeof elementMap.input.subtypes[number];
+  subtype: {
+    type: typeof ItemMap.input.subtypes[number];
+    value?: number | string;
+  };
 };
 
-export type Elements = Button | Input;
+export type TextArea = {
+  type: typeof ItemMap.textarea.type;
+  label?: string;
+  value?: number | string;
+};
+
+export type Items = Button | Input | TextArea;
 
 export interface Config {
-  items: Elements[];
+  items: Items[];
 }

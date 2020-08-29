@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { TextArea, StyledButton } from './styled';
-import { Config, elementMap } from './constants';
+import { TextArea, StyledButton, Warning } from './styled';
+import { Config, ItemMap } from './constants';
 import { validateInput } from './itemValidators';
+
 interface Props {
-  setupConfig: (config: string) => void;
+  setupConfig: (config: Config) => void;
+  setTextAreaValue: Function;
+  textAreaValue: string;
 }
-export default ({ setupConfig }: Props) => {
-  const [textAreaValue, setTextAreaValue] = useState('');
+
+export default ({ setupConfig, setTextAreaValue, textAreaValue }: Props) => {
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleTextAreaChange = (event: any) => {
     setTextAreaValue(event.target.value);
+    if (errorMessage) {
+      setErrorMessage('');
+    }
   };
 
   const applyConfig = () => {
@@ -22,6 +28,8 @@ export default ({ setupConfig }: Props) => {
     if (!validateConfig(configObj)) {
       return;
     }
+
+    setupConfig(configObj);
   };
 
   const transformToObj = (configText: string): Config | undefined => {
@@ -44,7 +52,10 @@ export default ({ setupConfig }: Props) => {
     }
 
     for (const item of items) {
-      if (!elementMap[item.type]) {
+      if (!item) {
+        continue;
+      }
+      if (!ItemMap[item.type]) {
         setErrorMessage(`no such element ${item.type}`);
         return false;
       }
@@ -67,11 +78,11 @@ export default ({ setupConfig }: Props) => {
 
       <StyledButton
         onClick={applyConfig}
-        style={{ marginLeft: 200, marginTop: 50, marginBottom: 50 }}
+        style={{ marginLeft: 200, marginTop: 50 }}
       >
         Apply
       </StyledButton>
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && <Warning>{errorMessage}</Warning>}
     </>
   );
 };
