@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TabHolder, TabButton, ContentHolder } from './styled';
-import InputConfig from './Config';
+import InputConfig from './ConfigInput';
 import Items from './Items';
 import { Config } from './constants';
 

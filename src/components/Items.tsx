@@ -15,10 +15,11 @@ interface Props {
 }
 
 export default ({ config: { items }, setTextAreaValue, setConfig }: Props) => {
+  let index = 0;
   const renderItems = (items: Config['items']): JSX.Element[] => {
     return items.map(item => {
       return (
-        <ItemContainer id='resultContainer'>
+        <ItemContainer id='resultContainer' key={index++}>
           <ItemLabel>{item.label}</ItemLabel>
           {item.type === 'button' && createButton(item)}
           {item.type === 'input' && createInput(item)}

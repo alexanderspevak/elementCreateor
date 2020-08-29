@@ -75,7 +75,6 @@ export default ({ setupConfig, setTextAreaValue, textAreaValue }: Props) => {
   return (
     <>
       <TextArea value={textAreaValue} onChange={handleTextAreaChange} />
-
       <StyledButton
         onClick={applyConfig}
         style={{ marginLeft: 200, marginTop: 50 }}
