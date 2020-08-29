@@ -15,6 +15,10 @@ beforeEach(() => {
   textArea = wrapped.find('textarea').at(0);
 });
 
+afterEach(() => {
+  wrapped.unmount();
+});
+
 it('has a text area and a 2buttons', () => {
   expect(wrapped.find('textarea').length).toEqual(1);
   expect(wrapped.find('button').length).toEqual(3);
@@ -29,7 +33,7 @@ it('renders a text input', () => {
   textArea.simulate('change', {
     target: {
       value: `{items:[
-        {type:'input',label:'date',subtype:{
+        {type:'input',label:'text',subtype:{
         type:'text',value:'new text'
         }}
         ]}`
@@ -48,7 +52,7 @@ it('renders a button', () => {
   textArea.simulate('change', {
     target: {
       value: `{items:[
-        {type:'button',label:'date',innerText: 'new text'}
+        {type:'button',label:'button',innerText: 'new button'}
         ]}`
     }
   });
@@ -58,14 +62,14 @@ it('renders a button', () => {
 
   const renderedButton = wrapped.find('button').at(2);
 
-  expect(renderedButton.text()).toEqual('new text');
+  expect(renderedButton.text()).toEqual('new button');
 });
 
 it('renders a textArea', () => {
   textArea.simulate('change', {
     target: {
       value: `{items:[
-        {type:'textarea',label:'date',value: 'new text'}
+        {type:'textarea',label:'textArea',value: 'new text'}
         ]}`
     }
   });
@@ -82,7 +86,7 @@ it('renders a checked checkbox', () => {
   textArea.simulate('change', {
     target: {
       value: `{items:[
-        {type:'input',label:'date',subtype:{
+        {type:'input',label:'checkbox',subtype:{
         type:'checkbox',value:true
         }}
         ]}`
@@ -102,7 +106,7 @@ it('renders a date input', () => {
     target: {
       value: `{items:[
         {type:'input',label:'date',subtype:{
-        type:'checkbox',value:true
+        type:'date',value:'2020-12-20'
         }}
         ]}`
     }
@@ -113,7 +117,7 @@ it('renders a date input', () => {
 
   const resultInput = wrapped.find('input');
 
-  expect(resultInput.prop('defaultChecked')).toEqual(true);
+  expect(resultInput.prop('defaultValue')).toEqual('2020-12-20');
 });
 
 it('renders an error message', () => {
